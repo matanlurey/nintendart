@@ -16,39 +16,42 @@ void main() {
       expect(cpsr.NZCV, 0xF);
     });
 
-    test('Q should return the 27th bit', () {
-      cpsr.bits = 0x08000000;
-      expect(cpsr.Q, 0x1);
-    });
-    
-    test('J should return the 24th bit', () {
-      cpsr.bits = 0x01000000;
-      expect(cpsr.J, 0x1);
-    });
-    
-    test('T should return the 5th bit', () {
-      cpsr.bits = 0x00000020;
-      expect(cpsr.T, 0x1);
-    });
-
-    test('A should return the 8th bit', () {
-      cpsr.bits = 0x00000100;
-      expect(cpsr.A, 0x1);
-    });
-
-    test('I should return the 7th bit', () {
-      cpsr.bits = 0x00000080;
-      expect(cpsr.I, 0x1);
-    });
-
-    test('F should return the 6th bit', () {
-      cpsr.bits = 0x00000040;
-      expect(cpsr.F, 0x1);
-    });
-    
-    test('MODE should return the 4 least significant bits', () {
+    test('currentCPUMode should return the correct CPUMode', () {
+      cpsr.bits = 0x0;
+      expect(cpsr.currentCPUMode, CPUMode.USER);
+      cpsr.bits = 0x00000001;
+      expect(cpsr.currentCPUMode, CPUMode.FIQ);
+      cpsr.bits = 0x00000002;
+      expect(cpsr.currentCPUMode, CPUMode.IRQ);
+      cpsr.bits = 0x00000003;
+      expect(cpsr.currentCPUMode, CPUMode.SUPERVISOR);
+      cpsr.bits = 0x00000007;
+      expect(cpsr.currentCPUMode, CPUMode.ABORT);
+      cpsr.bits = 0x0000000B;
+      expect(cpsr.currentCPUMode, CPUMode.UNDEFINED);
       cpsr.bits = 0x0000000F;
-      expect(cpsr.MODE, 0xF);
+      expect(cpsr.currentCPUMode, CPUMode.SYSTEM);
+    });
+    
+    test('currentInstructionSet should return the 24th bit', () {
+      cpsr.bits = 0x00000020; // J and T are 0 and 1
+      expect(cpsr.currentInstructionSet, InstructionSet.THUMB);
+      cpsr.bits = 0x00000000; // J and T are 0 and 0
+      expect(cpsr.currentInstructionSet, InstructionSet.ARM);
+    });
+    
+    test('disableIRQInterrupts should return true iff the 7th bit is set.', () {
+      cpsr.bits = 0x00000080;
+      expect(cpsr.disableIRQInterrupts, isTrue);
+      cpsr.bits = 0x00000000;
+      expect(cpsr.disableIRQInterrupts, isFalse);
+    });
+
+    test('disableFIQInterrupts should return true iff the 6th bit is set.', () {
+      cpsr.bits = 0x00000040;
+      expect(cpsr.disableFIQInterrupts, isTrue);
+      cpsr.bits = 0x00000000;
+      expect(cpsr.disableFIQInterrupts, isFalse);
     });
   });
 }
