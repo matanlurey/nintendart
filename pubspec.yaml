@@ -2,3 +2,5 @@ name: nintendart
 authors:
   - Kendal Harland <kendaljharland@gmail.com>
   - Matan Lurey <matan@lurey.org>
+dev_dependencies:
+  test: any
