@@ -11,9 +11,9 @@ void main() {
       cpsr = new CPSR();
     });
 
-    test('NZCV should return a nibble of the 4 most significant bits', () {
+    test('nzcv should return a nibble of the 4 most significant bits', () {
       cpsr.bits = 0xF0000000;
-      expect(cpsr.NZCV, 0xF);
+      expect(cpsr.nzcv, 0xF);
     });
 
     test('currentCPUMode should return the correct CPUMode', () {
@@ -32,14 +32,14 @@ void main() {
       cpsr.bits = 0x0000000F;
       expect(cpsr.currentCPUMode, CPUMode.SYSTEM);
     });
-    
+
     test('currentInstructionSet should return the 24th bit', () {
       cpsr.bits = 0x00000020; // J and T are 0 and 1
       expect(cpsr.currentInstructionSet, InstructionSet.THUMB);
       cpsr.bits = 0x00000000; // J and T are 0 and 0
       expect(cpsr.currentInstructionSet, InstructionSet.ARM);
     });
-    
+
     test('disableIRQInterrupts should return true iff the 7th bit is set.', () {
       cpsr.bits = 0x00000080;
       expect(cpsr.disableIRQInterrupts, isTrue);

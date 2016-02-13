@@ -1,7 +1,5 @@
 library nintendart.src.memory.memory_access;
 
-import 'dart:typed_data';
-
 /// A memory map definition.
 ///
 /// Defines a limited interface for I/O to a specific RAM space.

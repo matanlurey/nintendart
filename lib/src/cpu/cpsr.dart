@@ -14,14 +14,14 @@ enum CPUMode { USER, FIQ, IRQ, SUPERVISOR, ABORT, UNDEFINED, SYSTEM }
 /// |N |Z |C |V |Reserved|J |Reserved|I|F|T|M[4:0]|
 class CPSR {
   int bits = 0;
-  
-  bool get disableIRQInterrupts => _I == 1;
- 
-  bool get disableFIQInterrupts => _F == 1;
+
+  bool get disableIRQInterrupts => _i == 1;
+
+  bool get disableFIQInterrupts => _f == 1;
 
   /// Returns the current [CPUMode].
   CPUMode get currentCPUMode {
-    switch (_MODE) {
+    switch (_mode) {
       case 0x0:
         return CPUMode.USER;
       case 0x1:
@@ -36,12 +36,14 @@ class CPSR {
         return CPUMode.UNDEFINED;
       case 0xF:
         return CPUMode.SYSTEM;
+      default:
+        throw new UnsupportedError('Unknown mode: $_mode');
     }
   }
 
   InstructionSet get currentInstructionSet {
-    if (_J == 0) {
-      if (_T == 0) {
+    if (_j == 0) {
+      if (_t == 0) {
         return InstructionSet.ARM;
       } else {
         return InstructionSet.THUMB;
@@ -54,7 +56,7 @@ class CPSR {
   /// Set to bit 31 of the result of the instruction. If this result is
   /// regarded as a two's complement signed integer, then N = 1 if the result
   /// is negative and N = 0 if it is positive or zero.
-  int get NZCV => (bits >> 28) & 0xF;
+  int get nzcv => (bits >> 28) & 0xF;
 
   /// Together with the T bit, selects the current instruction set.
   ///
@@ -62,24 +64,24 @@ class CPSR {
   ///
   /// The instruction set is determined by the following table:
   ///
-  /// J T Instruction set
+  /// j t Instruction set
   /// -------------------
   /// 0 0 ARM
   /// 0 1 Thumb
   /// 1 0 Jazelle (Not supported on ARMv4)
   /// 1 1 RESERVED (I don't know what this does yet)
-  int get _J => (bits >> 24) & 0x1;
-  int get _T => (bits >> 5) & 0x1;
+  int get _j => (bits >> 24) & 0x1;
+  int get _t => (bits >> 5) & 0x1;
 
   /// Disables IRQ interrupts when it is set.
-  int get _I => (bits >> 7) & 0x1;
+  int get _i => (bits >> 7) & 0x1;
 
   /// Disables FIQ interrupts when it is set.
-  int get _F => (bits >> 6) & 0x1;
+  int get _f => (bits >> 6) & 0x1;
 
   /// M[4:0] in the above diagram.  These are the mode bits. These determine the
   /// mode in which the processor operates.
   ///
   /// The most signifant bit is always 1 and is implicit.
-  int get _MODE => bits & 0xF;
+  int get _mode => bits & 0xF;
 }

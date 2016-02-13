@@ -15,7 +15,7 @@ const int _RAM_SIZE_PALETTE = 0x400;
 const int _RAM_SIZE_VIDEO = 0x20000;
 const int _RAM_SIZE_OBJECT = 0x400;
 
-final int _RAM_SIZE_TOTAL = _RAM_SIZE_BIOS +
+final int _ramSizeTotal = _RAM_SIZE_BIOS +
     _RAM_SIZE_WORK +
     _RAM_SIZE_INTERNAL +
     _RAM_SIZE_IO +
@@ -31,7 +31,7 @@ class MemoryManager {
   final MemoryAccess workRAM;
 
   factory MemoryManager() {
-    return new MemoryManager.fromBuffer(new Uint8List(_RAM_SIZE_TOTAL).buffer);
+    return new MemoryManager.fromBuffer(new Uint8List(_ramSizeTotal).buffer);
   }
 
   MemoryManager.fromBuffer(ByteBuffer ramBuffer)

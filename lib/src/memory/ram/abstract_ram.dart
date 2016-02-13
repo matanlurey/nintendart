@@ -47,32 +47,32 @@ abstract class AbstractRAM implements MemoryAccess {
 }
 
 /// Reads and writes with a [mask] value.
-abstract class MaskMemoryMixin implements MemoryAccess {
+abstract class MaskMemoryMixin implements AbstractRAM {
   /// The mask value.
   int get mask;
 
   @override
-  int read8(int address) => super.read8(address & mask);
+  int read8(int address) => _view8[address & mask];
 
   @override
-  int read16(int address) => super.read16(address & mask);
+  int read16(int address) => _view16[address & mask];
 
   @override
-  int read32(int address) => super.read32(address & mask);
+  int read32(int address) => _view32[address & mask];
 
   @override
   void write8(int address, int value) {
-    super.write8(address & mask, value);
+    _view8[address & mask] = value;
   }
 
   @override
   void write16(int address, int value) {
-    super.write16(address & mask, value);
+    _view16[address] = value;
   }
 
   @override
   void write32(int address, int value) {
-    super.write32(address & mask, value);
+    _view32[address] = value;
   }
 }
 

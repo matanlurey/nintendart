@@ -1,7 +1,5 @@
 library nintendart.test.memory.memory_manager_test;
 
-import 'dart:typed_data';
-
 import 'package:nintendart/src/memory/memory_manager.dart';
 import 'package:test/test.dart';
 
