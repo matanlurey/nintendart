@@ -3,4 +3,5 @@ authors:
   - Kendal Harland <kendaljharland@gmail.com>
   - Matan Lurey <matan@lurey.org>
 dev_dependencies:
+  browser: any
   test: any
