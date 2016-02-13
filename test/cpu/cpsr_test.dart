@@ -20,10 +20,12 @@ void main() {
       cpsr.bits = 0x08000000;
       expect(cpsr.Q, 0x1);
     });
+    
     test('J should return the 24th bit', () {
       cpsr.bits = 0x01000000;
       expect(cpsr.J, 0x1);
     });
+    
     test('T should return the 5th bit', () {
       cpsr.bits = 0x00000020;
       expect(cpsr.T, 0x1);
