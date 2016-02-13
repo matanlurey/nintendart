@@ -1,6 +1,6 @@
 library nintendart.test.cpu.cpsr_test;
 
-import 'package:nintendart/cpu/cpsr.dart';
+import 'package:nintendart/src/cpu/cpsr.dart';
 import 'package:test/test.dart';
 
 void main() {
